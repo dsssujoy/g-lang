@@ -19,7 +19,7 @@ TOKEN_SPEC = [
     ("NUMBER",  r"\d+"),
     ("STRING",  r'"[^"]*"'),
     ("IDENT",   r"[A-Za-z_][A-Za-z0-9_]*"),
-    ("OP",      r"[+\-*/=<>!]+"),
+    ("OP",      r"[+\-*/%=<>!]+"),  # <-- added % here
     ("LPAREN",  r"\("),
     ("RPAREN",  r"\)"),
     ("LBRACE",  r"\{"),
@@ -138,7 +138,7 @@ class Parser:
         return node
     def term(self):
         node=self.factor()
-        while self.peek()[0]=="OP" and self.peek()[1] in ("*","/"):
+        while self.peek()[0]=="OP" and self.peek()[1] in ("*","/","%"):  # <-- added %
             op=self.eat("OP")[1]; right=self.factor(); node=("BINOP",op,node,right)
         return node
     def factor(self):
@@ -226,6 +226,7 @@ def eval_node(node,env):
         if node[1]=="-": return l-r
         if node[1]=="*": return l*r
         if node[1]=="/": return l//r
+        if node[1]=="%": return l % r       # <-- modulus
         if node[1]=="<": return l<r
         if node[1]==">": return l>r
         if node[1]=="==": return l==r

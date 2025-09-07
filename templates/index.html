@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>G-Lang Interpreter & Docs</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: black;
+        }
+
+        .bg {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .bg-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+        }
+
+        .black {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.393);
+        }
+
+        header {
+            position: relative;
+            z-index: 2;
+            background-color: rgba(41, 41, 41, 0.085);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ffffff;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .containerOne {
+            height: 300px;
+            width: 100%;
+            margin-top: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .containerOne img {
+            height: 150px;
+
+        }
+
+        .containerOne h3 {
+            color: white;
+            text-align: center;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+
+        .containerOne h4 {
+            color: white;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .containerOne h4 a {
+            color: #f74f65;
+            text-decoration: none;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #ffffff;
+        }
+
+        nav button {
+            background-color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        nav button:hover {
+            background-color: #29b6f6;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 120px auto 50px auto;
+        }
+
+        textarea {
+            width: 80vw;
+            height: 350px;
+            background-color: #111;
+            /* darker textarea */
+            color: #fff;
+            border: 1px solid #555;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 16px;
+            resize: vertical;
+        }
+
+        button.run-btn {
+            margin-top: 15px;
+            padding: 12px 25px;
+            background-color: #1e90ff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button.run-btn:hover {
+            background-color: #63b3ff;
+        }
+
+        pre {
+            width: 80%;
+            min-height: 200px;
+            background-color: #111;
+            border: 1px solid #555;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 16px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #fff;
+        }
+
+        .doc {
+            width: 80%;
+            background-color: #111;
+            border: 1px solid #555;
+            border-radius: 5px;
+            padding: 25px;
+            margin-top: 30px;
+            overflow-y: auto;
+            max-height: 700px;
+            color: #fff;
+        }
+
+        h2,
+        h3 {
+            color: #1e90ff;
+        }
+
+        code {
+            background-color: #222;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #fff;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #fff;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .documentationPro {
+            width: 100%;
+            height: auto;
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            border-top: 2px white solid;
+        }
+
+        .innerRow {
+            width: 90%;
+            height: auto;
+            background-color: #242323;
+            border-radius: 20px;
+            color: white;
+            margin: 30px;
+        }
+
+        .innerRow h1 {
+            margin-left: 10px;
+        }
+
+        .innerRow h3 {
+            margin-left: 10px;
+            margin-top: -20px;
+            color: #c0bbbb;
+        }
+
+        .innerRow h4 {
+            margin-left: 10px;
+            margin-top: -10px;
+            color: #b0b570;
+        }
+
+        .aboutDevelopers {
+            width: 100%;
+            height: 300px;
+            background-color: black;
+            border-top: 2px white solid;
+            display: flex;
+            justify-content: space-around;
+        }
+        a{
+            text-decoration: none;
+            color: red;
+        }
+
+        .box1 {
+            width: 1200px;
+            height: 200px;
+            margin-left: 20px;
+            margin-top: 20px;
+            color: white;
+        }
+
+        .box2 {
+            width: 200px;
+            height: 200px;
+            background-color: blue;
+            margin-left: 20px;
+            margin-top: 20px;
+            border-radius: 50%;
+            background-image: url(./pic.png);
+            background-size: cover;
+        }
+
+        /* Desktop responsiveness */
+        @media (max-width: 1024px) {
+
+            textarea,
+            pre,
+            .doc {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Video Background -->
+    <div class="bg">
+        <video autoplay muted loop class="bg-video">
+            <source src="bg.mp4" type="video/mp4">
+        </video>
+        <div class="black">
+            <!-- Header -->
+            <header>
+                <h1>G-Lang Interpreter</h1>
+                <nav>
+                    <button onclick="showTab('interpreter')">Interpreter</button>
+                    <button onclick="showTab('docs')">Documentation</button>
+                </nav>
+            </header>
+            <div class="containerOne">
+                <img src="./logo.png" alt="">
+                <h3>G-Lang is a quirky, Banglish-inspired programming language built with Python. Designed for beginners
+                    and coding enthusiasts, it’s a fun-loving toy language that mixes learning with laughter. With
+                    playful syntax and silly error messages, G-Lang makes coding enjoyable, easy to grasp, and full of
+                    creative experimentation.</h3>
+
+                <h4>Made by <a
+                        href="https://www.instagram.com/unfiltered__sujoy?igsh=cjA2NHJmcm4yYjBu">@unfiltered__sujoy</a>
+                </h4>
+            </div>
+        </div>
+
+    </div>
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Interpreter Tab -->
+        <div id="interpreter">
+            <textarea id="code" placeholder="Type your G-Lang code here..."></textarea><br>
+            <button class="run-btn" onclick="runCode()">Run</button>
+            <h3>Output:</h3>
+            <pre id="output"></pre>
+        </div>
+
+        <!-- Documentation Tab -->
+        <div id="docs" class="hidden">
+            <div class="doc">
+                <h2>G-Lang Documentation</h2>
+                <h3>1. Introduction</h3>
+                <p>G-Lang is a Banglish-inspired programming language built with Python. It's designed for
+                    beginners and coding enthusiasts.</p>
+                <h3>2. Keywords</h3>
+                <table border="1" cellpadding="5" cellspacing="0"
+                    style="border-collapse: collapse; width: 100%; color: #f0f0f0;">
+                    <tr>
+                        <th>Banglish</th>
+                        <th>English</th>
+                    </tr>
+                    <tr>
+                        <td>bol</td>
+                        <td>print</td>
+                    </tr>
+                    <tr>
+                        <td>jodi</td>
+                        <td>if</td>
+                    </tr>
+                    <tr>
+                        <td>naile</td>
+                        <td>else</td>
+                    </tr>
+                    <tr>
+                        <td>jotokhon</td>
+                        <td>while</td>
+                    </tr>
+                    <tr>
+                        <td>ghurche</td>
+                        <td>for</td>
+                    </tr>
+                    <tr>
+                        <td>dhoro</td>
+                        <td>let / variable declaration</td>
+                    </tr>
+                    <tr>
+                        <td>kaj</td>
+                        <td>func / function declaration</td>
+                    </tr>
+                    <tr>
+                        <td>phire</td>
+                        <td>return</td>
+                    </tr>
+                    <tr>
+                        <td>thik</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>dhop</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>Likh</td>
+                        <td>input</td>
+                    </tr>
+                    <tr>
+                        <td>shuru</td>
+                        <td>begin / block start</td>
+                    </tr>
+                    <tr>
+                        <td>ses</td>
+                        <td>end / block end</td>
+                    </tr>
+                </table>
+                <h3>3. Variables</h3>
+                <pre><code>dhoro x = 10
+dhoro name = "Sujoy"
+x = x + 5</code></pre>
+                <h3>4. Print</h3>
+                <pre><code>bol "Hello World"
+bol x + " is my number"</code></pre>
+                <h3>5. Input</h3>
+                <pre><code>dhoro name = Likh
+bol "Hello " + name</code></pre>
+                <h3>6. Conditional Statements</h3>
+                <pre><code>dhoro age = 20
+jodi age > 18 {
+    bol "Adult"
+}
+naile {
+    bol "Child"
+}</code></pre>
+                <h3>7. Loops</h3>
+                <p><b>While Loop:</b></p>
+                <pre><code>dhoro i = 0
+jotokhon i < 5 {
+    bol i
+    i = i + 1
+}</code></pre>
+                <p><b>For Loop:</b></p>
+                <pre><code>ghurche dhoro i = 0; i < 3; i = i + 1 {
+    bol i
+}</code></pre>
+                <h3>8. Functions</h3>
+                <pre><code>kaj add(a, b) {
+    phire a + b
+}
+
+dhoro sum = add(5, 10)
+bol sum</code></pre>
+                <h3>9. Boolean Values</h3>
+                <pre><code>dhoro flag = thik
+jodi flag {
+    bol "Yes!"
+}</code></pre>
+                <h3>10. Blocks</h3>
+                <pre><code>shuru
+    dhoro x = 5
+    bol x
+ses</code></pre>
+                <h3>11. Operators</h3>
+                <p>Arithmetic: +, -, *, / (integer division)<br>
+                    Comparison: &lt;, &gt;, ==<br>
+                    String concatenation: +</p>
+                <h3>12. Supported Features</h3>
+                <ul>
+                    <li>Variable declaration and assignment</li>
+                    <li>Arithmetic and string operations</li>
+                    <li>Conditional statements (if-else)</li>
+                    <li>Loops (while, for)</li>
+                    <li>Functions with parameters and return values</li>
+                    <li>Boolean values (thik, dhop)</li>
+                    <li>Input from user (Likh)</li>
+                    <li>Blocks (shuru ... ses)</li>
+                </ul>
+                <h3>13. Limitations</h3>
+                <ul>
+                    <li>Floating point division unsupported (only integer division)</li>
+                    <li>No arrays, lists, or dictionaries</li>
+                    <li>No classes or OOP</li>
+                    <li>No advanced operators (+=, -=, %, etc.)</li>
+                    <li>No file operations</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="documentationPro">
+        <div class="innerRow">
+            <h1>G-Lang Documentation</h1>
+            <h3>Welcome to G-Lang!</h3>
+            <h4>G-Lang is a fun, experimental programming language designed in Python. It uses Banglish (Bengali +
+                English) keywords and is meant for learning, experimenting, and having fun with code. The language is
+                simple, lightweight, and supports basic programming concepts such as variables, loops, conditionals,
+                functions, and input/output.</h4>
+        </div>
+        <div class="innerRow">
+            <h1>1. Getting Started</h1>
+            <h3>To write G-Lang code, you can use the Banglish keywords. All programs must start with shuru and end with
+                ses.</h3>
+            <h4>shuru <br>
+                bol "Hello, world!" <br>
+                ses
+            </h4>
+        </div>
+
+        <div class="innerRow">
+            <h1>Output:</h1>
+            <h3>Hello, world!
+            </h3>
+            <h4>bol → prints output to the console. <br>
+
+                shuru and ses → marks the start and end of a program block.
+            </h4>
+        </div>
+    </div> -->
+    <div class="documentationPro">
+        <div class="innerRow">
+            <h1>G-Lang Documentation</h1>
+            <h3>Welcome to G-Lang!</h3>
+            <h4>G-Lang is a quirky, Banglish-inspired programming language built with Python. It is designed for
+                beginners
+                and coding enthusiasts who want to learn programming with fun. It supports variables, loops,
+                conditionals,
+                functions, input/output, and playful syntax with funny error messages.</h4>
+        </div>
+
+        <div class="innerRow">
+            <h1>1. Getting Started</h1>
+            <h3>All G-Lang programs start with <code>shuru</code> and end with <code>ses</code>.</h3>
+            <h4>
+                shuru <br>
+                &nbsp;&nbsp;bol "Hello, world!" <br>
+                ses
+            </h4>
+        </div>
+
+        <div class="innerRow">
+            <h1>2. Variables</h1>
+            <h3>Declare variables with <code>dhoro</code> and assign values using <code>=</code>.</h3>
+            <h4>
+                dhoro x = 10 <br>
+                dhoro name = "Sujoy" <br>
+                x = x + 5
+            </h4>
+            <p>Supports numbers, strings, and boolean values (<code>thik</code> for true, <code>dhop</code> for false).
+            </p>
+        </div>
+
+        <div class="innerRow">
+            <h1>3. Print Statements</h1>
+            <h3>Use <code>bol</code> to print values or messages.</h3>
+            <h4>
+                bol "Hello G-Lang" <br>
+                bol " is my number"
+            </h4>
+        </div>
+
+
+
+        <div class="innerRow">
+            <h1>4. Conditional Statements</h1>
+            <h3>Use <code>jodi</code> for if, <code>naile</code> for else.</h3>
+            <h4>
+                dhoro age = 20 <br>
+                jodi age > 18 { <br>
+                &nbsp;&nbsp;bol "Adult" <br>
+                } <br>
+                naile { <br>
+                &nbsp;&nbsp;bol "Child" <br>
+                }
+            </h4>
+        </div>
+
+        <div class="innerRow">
+            <h1>5. Loops</h1>
+            <h3>While loop uses <code>jotokhon</code>, for loop uses <code>ghurche</code>.</h3>
+            <h4><b>While Loop:</b><br>
+                dhoro i = 0 <br>
+                jotokhon i < 5 { <br>
+                    &nbsp;&nbsp;bol i <br>
+                    &nbsp;&nbsp;i = i + 1 <br>
+                    }
+            </h4>
+            <h4><b>For Loop:</b><br>
+                ghurche dhoro i = 0; i < 3; i=i + 1 { <br>
+                    &nbsp;&nbsp;bol i <br>
+                    }
+            </h4>
+        </div>
+
+        <div class="innerRow">
+            <h1>6. Functions</h1>
+            <h3>Define functions with <code>kaj</code> and return values with <code>phire</code>.</h3>
+            <h4>
+                kaj add(a, b) { <br>
+                &nbsp;&nbsp;phire a + b <br>
+                } <br><br>
+                dhoro result = add(5, 10) <br>
+                bol result
+            </h4>
+        </div>
+
+        <div class="innerRow">
+            <h1>7. Boolean Values</h1>
+            <h3>Use <code>thik</code> for true and <code>dhop</code> for false.</h3>
+            <h4>
+                dhoro flag = thik <br>
+                jodi flag { <br>
+                &nbsp;&nbsp;bol "Yes!" <br>
+                }
+            </h4>
+        </div>
+
+        <div class="innerRow">
+            <h1>8. Blocks</h1>
+            <h3>Use <code>shuru ... ses</code> to group statements into a block.</h3>
+            <h4>
+                shuru <br>
+                &nbsp;&nbsp;dhoro x = 5 <br>
+                &nbsp;&nbsp;bol x <br>
+                ses
+            </h4>
+        </div>
+
+        <div class="innerRow">
+            <h1>9. Operators</h1>
+            <h3>G-Lang supports:</h3>
+            <h4>
+                Arithmetic: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> (integer division)<br>
+                Comparison: <code>&lt;</code>, <code>&gt;</code>, <code>==</code><br>
+                String concatenation: <code>+</code>
+            </h4>
+        </div>
+
+        <div class="innerRow">
+            <h1>10. Supported Features</h1>
+            <h4>
+                - Variable declaration and assignment<br>
+                - Arithmetic and string operations<br>
+                - Conditional statements (if-else)<br>
+                - Loops (while, for)<br>
+                - Functions with parameters and return values<br>
+                - Boolean values (thik, dhop)<br>
+                - Blocks (shuru ... ses)
+            </h4>
+        </div>
+
+        <div class="innerRow">
+            <h1>11. Limitations</h1>
+            <h4>
+                - Floating point numbers not supported (only integer division)<br>
+                - No arrays, lists, or dictionaries<br>
+                - No classes or OOP<br>
+                - No advanced operators (+=, -=, %, etc.)<br>
+                - No file operations or imports
+            </h4>
+        </div>
+
+        <div class="innerRow">
+            <h1>12. Full Example Program</h1>
+            <h4>
+                shuru <br>
+                &nbsp;&nbsp;bol "Welcome to G-Lang!" <br>
+                &nbsp;&nbsp;dhoro name = "Sujoy" <br>
+                &nbsp;&nbsp;bol "Hello " + name <br>
+                &nbsp;&nbsp;dhoro i = 0 <br>
+                &nbsp;&nbsp;jotokhon i < 3 { <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;bol "Loop iteration: " + i <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;i = i + 1 <br>
+                    &nbsp;&nbsp;} <br>
+                    &nbsp;&nbsp;kaj add(a,b) { <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;phire a + b <br>
+                    &nbsp;&nbsp;} <br>
+                    &nbsp;&nbsp;dhoro result = add(10,5) <br>
+                    &nbsp;&nbsp;bol "10 + 5 = " + result <br>
+                    ses
+            </h4>
+        </div>
+    </div>
+
+    <div class="aboutDevelopers">
+        <div class="box1">
+            <h1>About Developer!!</h1>
+            <h5>Hi! I’m Sujoy Das, a versatile Flutter App Developer, Node.js Backend Developer, and Python Flask
+                Developer. I’m currently pursuing my BCA, combining academic knowledge with hands-on development
+                experience. I love creating beautiful, responsive mobile apps, efficient backend systems, and dynamic
+                web services that solve real-world problems.
+
+                I’m passionate about learning new technologies, experimenting with innovative solutions, and turning
+                ideas into practical applications. From building cross-platform apps in Flutter to designing RESTful
+                APIs with Node.js and Flask, I enjoy crafting software that’s both functional and user-friendly.
+
+                Feel free to connect with me:
+
+                <a href="https://www.instagram.com/unfiltered__sujoy?igsh=cjA2NHJmcm4yYjBu">Instagram: @unfiltered__sujoy</a>
+
+                Email: dassujoyofficial2004@gmail.com
+
+                Always excited to collaborate, share knowledge, and work on projects that challenge me and help me grow
+                as a developer.</h5>
+        </div>
+        <div class="box2"></div>
+    </div>
+
+
+
+    <script>
+        function runCode() {
+            const code = document.getElementById("code").value;
+            const outputBox = document.getElementById("output");
+            outputBox.innerText = "Running...";
+            fetch('/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'code=' + encodeURIComponent(code)
+            })
+                .then(r => r.text())
+                .then(data => { outputBox.innerText = data; })
+                .catch(err => { outputBox.innerText = "Error: " + err; });
+        }
+
+        function showTab(tab) {
+            document.getElementById('interpreter').classList.add('hidden');
+            document.getElementById('docs').classList.add('hidden');
+            document.getElementById(tab).classList.remove('hidden');
+        }
+    </script>
+</body>
+
+</html>

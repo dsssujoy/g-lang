@@ -259,8 +259,14 @@
             margin-left: 20px;
             margin-top: 20px;
             border-radius: 50%;
-            background-image: url(./pic.png);
             background-size: cover;
+            overflow: hidden;
+            object-fit: cover;
+        }
+        .box2 img{
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
         }
 
         /* Desktop responsiveness */
@@ -278,9 +284,9 @@
 <body>
     <!-- Video Background -->
     <div class="bg">
-        <video autoplay muted loop class="bg-video">
-            <source src="bg.mp4" type="video/mp4">
-        </video>
+         <video autoplay muted loop class="bg-video">
+        <source src="{{ url_for('static', filename='bg.mp4') }}" type="video/mp4">
+    </video>
         <div class="black">
             <!-- Header -->
             <header>
@@ -291,7 +297,7 @@
                 </nav>
             </header>
             <div class="containerOne">
-                <img src="./logo.png" alt="">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="">
                 <h3>G-Lang is a quirky, Banglish-inspired programming language built with Python. Designed for beginners
                     and coding enthusiasts, it’s a fun-loving toy language that mixes learning with laughter. With
                     playful syntax and silly error messages, G-Lang makes coding enjoyable, easy to grasp, and full of
@@ -670,7 +676,9 @@ ses</code></pre>
                 Always excited to collaborate, share knowledge, and work on projects that challenge me and help me grow
                 as a developer.</h5>
         </div>
-        <div class="box2"></div>
+        <div class="box2">
+            <img src="{{ url_for('static', filename='pic.png') }}" alt="">
+        </div>
     </div>
 
 
